@@ -17,14 +17,14 @@ namespace DesktopApp1
     /// <summary>
     /// <para/> Requirments
     /// <para/> Basics:
-    /// <para/>     1.Delete a Part.
+    /// <para/>     1.Delete a Part. ✔
     /// <para/>     2.Move a part.
     /// <para/>     3.Add WaterMark.
     /// <para/>     4.Save Video. ✔
     /// <para/>     5.Change FPS.
     /// <para/> Addtional:
     /// <para/>     6.undo Last Action.
-    /// <para/>     7.Resize Video.
+    /// <para/>     7.Resize Video. ✔
     /// <para/>     8.Create Video from Photos.
     /// <para/>     9.Merge Video.
     /// <para/>     10.Add Stickers.
@@ -158,7 +158,7 @@ namespace DesktopApp1
             //frames number to delte it.
             uint diff = end - start + 1;
             uint framesNum = this.framesNum - diff;
-            List<Mat> frames = this.frames.GetRange((int)start, (int)end);
+             this.frames.RemoveRange((int)start, (int)diff);
 
             //frames/fps=seconds
             float seconds = framesNum / fps;
@@ -239,10 +239,10 @@ namespace DesktopApp1
         public Video SaveVideo(String fullPath)
         {
             int codec = VideoWriter.Fourcc('M', 'P', '4', 'V');
-            MessageBox.Show(Directory.GetCurrentDirectory());
+            //MessageBox.Show(Directory.GetCurrentDirectory());
             VideoWriter videoWriter = new VideoWriter(fullPath, codec, (int)this.fps, this.size, true);
 
-            for (int i = 0; i < framesNum; i++)
+            for (int i = 0; i < frames.Count; i++)
             {
                 videoWriter.Write(frames[i]);
             }
