@@ -68,26 +68,7 @@ namespace DesktopApp1
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 String path = openFileDialog1.FileName;
-                label1.Text = path;
-                //pictureBox2.Load(path);
-                //original = new Bitmap(path);
-                //imageHandler = new MyImage(path);
-                //imageExist = true;
-                videoHandler = new Video(path);
-                save.Enabled = true;
-                showVideo.Enabled = true;
-                info.Enabled = true;
-                restart.Enabled = true;
-                imageBox1.Image = videoHandler.Frames.First();
-                IndexFrame = 0;
-                timer1.Interval = (int)videoHandler.Delay;
-                timer1.Stop();
-                Start = false;
-                button_pause_start.Enabled = true;
-                resize.Enabled = true;
-                scroll_video.Enabled = true;
-                scroll_video.Maximum = videoHandler.Frames.Count+ scroll_video.LargeChange - 1;
-
+                this.initVideo(path);
             }
         }
 
@@ -161,20 +142,7 @@ namespace DesktopApp1
                 if (filenames.Length > 0)
                 {
                     String path = filenames[0];
-                    label1.Text = path;
-                    videoHandler = new Video(path);
-                    save.Enabled = true;
-                    showVideo.Enabled = true;
-                    info.Enabled = true;
-                    resize.Enabled = true;
-                    button_pause_start.Enabled = true;
-                    imageBox1.Image = videoHandler.Frames.First();
-                    IndexFrame = 0;
-                    timer1.Interval = (int)videoHandler.Delay;
-                    Start = false;
-                    restart.Enabled = true;
-                    scroll_video.Enabled = true;
-                    scroll_video.Maximum = videoHandler.Frames.Count+ scroll_video.LargeChange-1;
+                    this.initVideo(path);
                 }
             }
         }
@@ -205,6 +173,60 @@ namespace DesktopApp1
         private void SaveFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
 
+        }
+
+
+     
+
+        private void HScrollBar1_Scroll(object sender, ScrollEventArgs e)
+        {
+            //scroll_video.Maximum = 1000;
+            //Console.WriteLine(scroll_video.Value);
+            //Console.WriteLine(scroll_video.Maximum);
+            //Console.WriteLine(scroll_video.Width);
+            IndexFrame = scroll_video.Value;
+        }
+
+        private void Delete_Part_Click(object sender, EventArgs e)
+        {
+            videoHandler.DeletePartOfVideo(0, 20);
+        }
+
+        private void Create_video_Click(object sender, EventArgs e)
+        {
+            List<String> paths = new List<String>();
+            paths.Add("C:\\Users\\kareem\\Desktop\\photos\\1.jpg");
+            paths.Add("C:\\Users\\kareem\\Desktop\\photos\\2.jpg");
+            paths.Add("C:\\Users\\kareem\\Desktop\\photos\\3.jpg");
+            paths.Add("C:\\Users\\kareem\\Desktop\\photos\\4.png");
+            paths.Add("C:\\Users\\kareem\\Desktop\\photos\\5.jpg");
+            paths.Add("C:\\Users\\kareem\\Desktop\\photos\\6.jpg");
+            paths.Add("C:\\Users\\kareem\\Desktop\\photos\\7.jpg");
+            paths.Add("C:\\Users\\kareem\\Desktop\\photos\\8.jpg");
+            paths.Add("C:\\Users\\kareem\\Desktop\\photos\\9.jpg");
+            paths.Add("C:\\Users\\kareem\\Desktop\\photos\\10.jpg");
+
+            VideoHandler = videoHandler.CreateVideoFromPhotos(paths,5,new Size(300,300));
+        }
+
+
+        private void initVideo(String path)
+        {
+            label1.Text = path;
+            videoHandler = new Video(path);
+            save.Enabled = true;
+            showVideo.Enabled = true;
+            info.Enabled = true;
+            resize.Enabled = true;
+            button_pause_start.Enabled = true;
+            imageBox1.Image = videoHandler.Frames.First();
+            IndexFrame = 0;
+            timer1.Interval = (int)videoHandler.Delay;
+            Start = false;
+            restart.Enabled = true;
+            scroll_video.Enabled = true;
+            scroll_video.Maximum = videoHandler.Frames.Count + scroll_video.LargeChange - 1;
+            create_video.Enabled = true;
         }
 
 
@@ -242,18 +264,19 @@ namespace DesktopApp1
             }
         }
 
-        private void HScrollBar1_Scroll(object sender, ScrollEventArgs e)
+        public Video VideoHandler
         {
-            //scroll_video.Maximum = 1000;
-            //Console.WriteLine(scroll_video.Value);
-            //Console.WriteLine(scroll_video.Maximum);
-            //Console.WriteLine(scroll_video.Width);
-            IndexFrame = scroll_video.Value;
+            get { return videoHandler; }
+            set
+            {
+                videoHandler = value;
+                timer1.Interval = (int)videoHandler.Delay;
+                imageBox1.Image = videoHandler.Frames.First();
+                scroll_video.Maximum = videoHandler.Frames.Count + scroll_video.LargeChange - 1;
+
+            }
         }
 
-        private void Delete_Part_Click(object sender, EventArgs e)
-        {
-            videoHandler.DeletePartOfVideo(0, 20);
-        }
+
     }
 }

@@ -25,7 +25,7 @@ namespace DesktopApp1
     /// <para/> Addtional:
     /// <para/>     6.undo Last Action.
     /// <para/>     7.Resize Video. ✔
-    /// <para/>     8.Create Video from Photos.
+    /// <para/>     8.Create Video from Photos. ✔
     /// <para/>     9.Merge Video.
     /// <para/>     10.Add Stickers.
     /// <para/>     11.Add Audio.
@@ -116,6 +116,7 @@ namespace DesktopApp1
             this.seconds = seconds;
             this.fps = fps;
             this.frames = frames;
+            this.delay = 1000 / fps;
             //fps = framesNum/seconds
         }
         public Video(uint framesNum, Size size, float fps, List<Mat> frames)
@@ -125,6 +126,7 @@ namespace DesktopApp1
             this.seconds = framesNum/fps;
             this.fps = fps;
             this.frames = frames;
+            this.delay = 1000 / fps;
             //fps = framesNum/seconds
         }
 
@@ -312,6 +314,9 @@ namespace DesktopApp1
         {
             List<Mat> frames = this.PathsPhotosToMats(paths);
             Video video = new Video((uint)frames.Count, size, fps, frames);
+
+            //Resiaze Because The Frames dont have The Same Size.
+            video.ResizeVideo(size);
             return video;
         }
 
