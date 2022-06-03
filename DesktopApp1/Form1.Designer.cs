@@ -45,6 +45,7 @@ namespace DesktopApp1
             this.frame_index = new System.Windows.Forms.Label();
             this.scroll_video = new System.Windows.Forms.HScrollBar();
             this.delete_Part = new System.Windows.Forms.Button();
+            this.create_video = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -206,6 +207,18 @@ namespace DesktopApp1
             this.delete_Part.UseVisualStyleBackColor = true;
             this.delete_Part.Click += new System.EventHandler(this.Delete_Part_Click);
             // 
+            // create_video
+            // 
+            this.create_video.Cursor = System.Windows.Forms.Cursors.Default;
+            this.create_video.Enabled = false;
+            this.create_video.Location = new System.Drawing.Point(454, 394);
+            this.create_video.Name = "create_video";
+            this.create_video.Size = new System.Drawing.Size(115, 23);
+            this.create_video.TabIndex = 12;
+            this.create_video.Text = "create video";
+            this.create_video.UseVisualStyleBackColor = true;
+            this.create_video.Click += new System.EventHandler(this.Create_video_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -213,6 +226,7 @@ namespace DesktopApp1
             this.AutoSize = true;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnablePreventFocusChange;
             this.ClientSize = new System.Drawing.Size(581, 455);
+            this.Controls.Add(this.create_video);
             this.Controls.Add(this.delete_Part);
             this.Controls.Add(this.scroll_video);
             this.Controls.Add(this.frame_index);
@@ -252,6 +266,7 @@ namespace DesktopApp1
         private System.Windows.Forms.Label frame_index;
         private System.Windows.Forms.HScrollBar scroll_video;
         private System.Windows.Forms.Button delete_Part;
+        private System.Windows.Forms.Button create_video;
     }
 }
 

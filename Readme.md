@@ -17,7 +17,7 @@ again for package "Emgu.CV".
     - Addtional:
         6. undo Last Action.
         7. Resize Video. ✔
-        8. Create Video from Photos.
+        8. Create Video from Photos. ✔
         9. Merge Video.
         10. Add Stickers.
         11. Add Audio.
