@@ -77,12 +77,17 @@ namespace DesktopApp1
                 save.Enabled = true;
                 showVideo.Enabled = true;
                 info.Enabled = true;
+                restart.Enabled = true;
                 imageBox1.Image = videoHandler.Frames.First();
                 IndexFrame = 0;
                 timer1.Interval = (int)videoHandler.Delay;
                 timer1.Stop();
                 Start = false;
                 button_pause_start.Enabled = true;
+                resize.Enabled = true;
+                scroll_video.Enabled = true;
+                scroll_video.Maximum = videoHandler.Frames.Count+ scroll_video.LargeChange - 1;
+
             }
         }
 
@@ -161,11 +166,15 @@ namespace DesktopApp1
                     save.Enabled = true;
                     showVideo.Enabled = true;
                     info.Enabled = true;
+                    resize.Enabled = true;
                     button_pause_start.Enabled = true;
                     imageBox1.Image = videoHandler.Frames.First();
                     IndexFrame = 0;
                     timer1.Interval = (int)videoHandler.Delay;
                     Start = false;
+                    restart.Enabled = true;
+                    scroll_video.Enabled = true;
+                    scroll_video.Maximum = videoHandler.Frames.Count+ scroll_video.LargeChange-1;
                 }
             }
         }
@@ -179,7 +188,7 @@ namespace DesktopApp1
 
         private void Button3_Click(object sender, EventArgs e)
         {
-
+            videoHandler.ResizeVideo(new Size(720, 720));
         }
 
         private void ImageBox1_MouseDown(object sender, MouseEventArgs e)
@@ -227,9 +236,24 @@ namespace DesktopApp1
                 if (indexFrame >= videoHandler.Frames.Count)
                     indexFrame = 0;
                 imageBox1.Image = videoHandler.Frames[indexFrame];
+                frame_index.Text = "Frame Index= " + indexFrame;
+                scroll_video.Value = indexFrame;
 
             }
         }
 
+        private void HScrollBar1_Scroll(object sender, ScrollEventArgs e)
+        {
+            //scroll_video.Maximum = 1000;
+            //Console.WriteLine(scroll_video.Value);
+            //Console.WriteLine(scroll_video.Maximum);
+            //Console.WriteLine(scroll_video.Width);
+            IndexFrame = scroll_video.Value;
+        }
+
+        private void Delete_Part_Click(object sender, EventArgs e)
+        {
+            videoHandler.DeletePartOfVideo(0, 20);
+        }
     }
 }
