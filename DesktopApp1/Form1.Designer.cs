@@ -46,6 +46,11 @@ namespace DesktopApp1
             this.scroll_video = new System.Windows.Forms.HScrollBar();
             this.delete_Part = new System.Windows.Forms.Button();
             this.create_video = new System.Windows.Forms.Button();
+            this.water_mark = new System.Windows.Forms.Button();
+            this.text_water_mark = new System.Windows.Forms.Button();
+            this.fps = new System.Windows.Forms.Button();
+            this.merge = new System.Windows.Forms.Button();
+            this.move = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -199,9 +204,10 @@ namespace DesktopApp1
             // 
             // delete_Part
             // 
-            this.delete_Part.Location = new System.Drawing.Point(206, 11);
+            this.delete_Part.Enabled = false;
+            this.delete_Part.Location = new System.Drawing.Point(205, 7);
             this.delete_Part.Name = "delete_Part";
-            this.delete_Part.Size = new System.Drawing.Size(75, 25);
+            this.delete_Part.Size = new System.Drawing.Size(75, 31);
             this.delete_Part.TabIndex = 11;
             this.delete_Part.Text = "delete";
             this.delete_Part.UseVisualStyleBackColor = true;
@@ -219,6 +225,66 @@ namespace DesktopApp1
             this.create_video.UseVisualStyleBackColor = true;
             this.create_video.Click += new System.EventHandler(this.Create_video_Click);
             // 
+            // water_mark
+            // 
+            this.water_mark.Cursor = System.Windows.Forms.Cursors.Default;
+            this.water_mark.Enabled = false;
+            this.water_mark.Location = new System.Drawing.Point(333, 394);
+            this.water_mark.Name = "water_mark";
+            this.water_mark.Size = new System.Drawing.Size(115, 23);
+            this.water_mark.TabIndex = 13;
+            this.water_mark.Text = "water mark";
+            this.water_mark.UseVisualStyleBackColor = true;
+            this.water_mark.Click += new System.EventHandler(this.Button1_Click_6);
+            // 
+            // text_water_mark
+            // 
+            this.text_water_mark.Cursor = System.Windows.Forms.Cursors.Default;
+            this.text_water_mark.Enabled = false;
+            this.text_water_mark.Location = new System.Drawing.Point(212, 394);
+            this.text_water_mark.Name = "text_water_mark";
+            this.text_water_mark.Size = new System.Drawing.Size(115, 23);
+            this.text_water_mark.TabIndex = 14;
+            this.text_water_mark.Text = "test mark";
+            this.text_water_mark.UseVisualStyleBackColor = true;
+            this.text_water_mark.Click += new System.EventHandler(this.Button1_Click_7);
+            // 
+            // fps
+            // 
+            this.fps.Cursor = System.Windows.Forms.Cursors.Default;
+            this.fps.Enabled = false;
+            this.fps.Location = new System.Drawing.Point(159, 394);
+            this.fps.Name = "fps";
+            this.fps.Size = new System.Drawing.Size(47, 23);
+            this.fps.TabIndex = 15;
+            this.fps.Text = "fps";
+            this.fps.UseVisualStyleBackColor = true;
+            this.fps.Click += new System.EventHandler(this.Button1_Click_8);
+            // 
+            // merge
+            // 
+            this.merge.Cursor = System.Windows.Forms.Cursors.Default;
+            this.merge.Enabled = false;
+            this.merge.Location = new System.Drawing.Point(454, 423);
+            this.merge.Name = "merge";
+            this.merge.Size = new System.Drawing.Size(115, 23);
+            this.merge.TabIndex = 16;
+            this.merge.Text = "merge video";
+            this.merge.UseVisualStyleBackColor = true;
+            this.merge.Click += new System.EventHandler(this.Button1_Click_9);
+            // 
+            // move
+            // 
+            this.move.Cursor = System.Windows.Forms.Cursors.Default;
+            this.move.Enabled = false;
+            this.move.Location = new System.Drawing.Point(333, 423);
+            this.move.Name = "move";
+            this.move.Size = new System.Drawing.Size(115, 23);
+            this.move.TabIndex = 17;
+            this.move.Text = "move part";
+            this.move.UseVisualStyleBackColor = true;
+            this.move.Click += new System.EventHandler(this.Move_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -226,6 +292,11 @@ namespace DesktopApp1
             this.AutoSize = true;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnablePreventFocusChange;
             this.ClientSize = new System.Drawing.Size(581, 455);
+            this.Controls.Add(this.move);
+            this.Controls.Add(this.merge);
+            this.Controls.Add(this.fps);
+            this.Controls.Add(this.text_water_mark);
+            this.Controls.Add(this.water_mark);
             this.Controls.Add(this.create_video);
             this.Controls.Add(this.delete_Part);
             this.Controls.Add(this.scroll_video);
@@ -267,6 +338,11 @@ namespace DesktopApp1
         private System.Windows.Forms.HScrollBar scroll_video;
         private System.Windows.Forms.Button delete_Part;
         private System.Windows.Forms.Button create_video;
+        private System.Windows.Forms.Button water_mark;
+        private System.Windows.Forms.Button text_water_mark;
+        private System.Windows.Forms.Button fps;
+        private System.Windows.Forms.Button merge;
+        private System.Windows.Forms.Button move;
     }
 }
 

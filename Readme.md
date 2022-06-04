@@ -9,15 +9,15 @@ again for package "Emgu.CV".
  # Requirments
     - Basics:
         1. Delete a Part. ✔
-        2. Move a part.
-        3. Add WaterMark.
+        2. Move a part.  ✔
+        3. Add WaterMark.  ✔
         4. Save Video. ✔
-        5. Change FPS.
+        5. Change FPS(Speed and Slow The Video).  ✔
 
     - Addtional:
         6. undo Last Action.
         7. Resize Video. ✔
         8. Create Video from Photos. ✔
-        9. Merge Video.
+        9. Merge Video.  ✔
         10. Add Stickers.
         11. Add Audio.
