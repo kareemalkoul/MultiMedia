@@ -24,6 +24,21 @@ namespace ExtensionMethods
             return new Video(video);
         }
 
+        public static String GetExtension(this String path)
+        {
+            String nameFile = path.Split('\\').Last();
+            String ext = nameFile.Split('.').Last();
+            return ext;
+        }
+
+        public static List<T> GetRangeByIndex<T>(this List<T> list, int start, int end)
+        {
+            return list.Where((value, index) => index >= start && index <= end).ToList();
+        }
+
+
+
+
     }
 
 

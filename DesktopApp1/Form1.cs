@@ -1,3 +1,4 @@
+using Emgu.CV.Structure;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -109,7 +110,7 @@ namespace DesktopApp1
         }
 
         private void Tick(object sender, EventArgs e)
-        {    
+        {
             IndexFrame++;
         }
 
@@ -151,7 +152,7 @@ namespace DesktopApp1
         {
             IndexFrame = 0;
             Start = false;
-           
+
         }
 
         private void Button3_Click(object sender, EventArgs e)
@@ -167,7 +168,7 @@ namespace DesktopApp1
         private void Button_pause_start_Click(object sender, EventArgs e)
         {
             Start = !Start;
-         
+
         }
 
         private void SaveFileDialog1_FileOk(object sender, CancelEventArgs e)
@@ -176,7 +177,7 @@ namespace DesktopApp1
         }
 
 
-     
+
 
         private void HScrollBar1_Scroll(object sender, ScrollEventArgs e)
         {
@@ -206,7 +207,7 @@ namespace DesktopApp1
             paths.Add("C:\\Users\\kareem\\Desktop\\photos\\9.jpg");
             paths.Add("C:\\Users\\kareem\\Desktop\\photos\\10.jpg");
 
-            VideoHandler = videoHandler.CreateVideoFromPhotos(paths,5,new Size(300,300));
+            VideoHandler = videoHandler.CreateVideoFromPhotos(paths, 5, new Size(300, 300));
         }
 
 
@@ -227,6 +228,12 @@ namespace DesktopApp1
             scroll_video.Enabled = true;
             scroll_video.Maximum = videoHandler.Frames.Count + scroll_video.LargeChange - 1;
             create_video.Enabled = true;
+            water_mark.Enabled = true;
+            text_water_mark.Enabled = true;
+            fps.Enabled = true;
+            merge.Enabled = true;
+            delete_Part.Enabled = true;
+            move.Enabled = true;
         }
 
 
@@ -277,6 +284,45 @@ namespace DesktopApp1
             }
         }
 
+        private void Button1_Click_6(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                String path = openFileDialog1.FileName;
+                videoHandler.AddWatermark(path);
+            }
 
+        }
+
+        private void Button1_Click_7(object sender, EventArgs e)
+        {
+            videoHandler.AddWatermark("hello", new Point(10, 200), new MCvScalar(255, 255, 255, 255), Emgu.CV.CvEnum.FontFace.HersheyComplex, 1);
+        }
+
+        private void Button1_Click_8(object sender, EventArgs e)
+        {
+            VideoHandler = videoHandler.ChangeFps(10);
+        }
+
+        private void Button1_Click_9(object sender, EventArgs e)
+        {
+            Video mergeVideo;
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                String path = openFileDialog1.FileName;
+                Video video = new Video(path);
+                mergeVideo = videoHandler.MergeVideos(videoHandler, video);
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                     path = saveFileDialog1.FileName;
+                    mergeVideo.SaveVideo(path);
+                }
+            }
+        }
+
+        private void Move_Click(object sender, EventArgs e)
+        {
+            VideoHandler=videoHandler.MovePartOfVideo(20, 69, (uint)videoHandler.Frames.Count-1);
+        }
     }
 }

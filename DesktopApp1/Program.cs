@@ -30,6 +30,37 @@ namespace DesktopApp1
             //video.ShowInfo();
             //video.showFrames();
 
+            //float i = 30 / 25f;
+            //Console.WriteLine(i.ToString());
+            //float k = 0;
+            //int kemo = 0;
+            //for (int j = 0; j < 29; j++)
+            //{
+            //    k += i;
+            //    Console.WriteLine(k);
+            //    if ((float)Math.Floor(k) == k)
+            //    {
+            //        kemo++;
+            //        Console.WriteLine("aasas");
+
+            //    }
+            //    bool isInt = k == Math.Truncate(k);
+
+            //    if (isInt)
+            //    {
+            //        Console.WriteLine("qqqqqqqqqqqqqqqqqqq");
+
+            //    }
+            //    if (Math.Round(k, 4) == Math.Round(k))
+            //    {
+            //        Console.WriteLine("aaaaaaaaaaaaaaaaaaaaa");
+            //    }
+
+
+            //}
+            //Console.WriteLine(kemo);
+
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
@@ -60,14 +91,14 @@ namespace DesktopApp1
                     break;
                 images.Add(image);
                 CvInvoke.Imshow("video", image);
-                char c = (char)CvInvoke.WaitKey((int)(1000/fps));
+                char c = (char)CvInvoke.WaitKey((int)(1000 / fps));
                 if (c == 27)
                     break;
             }
             videoCapture.Dispose();
             CvInvoke.DestroyAllWindows();
 
-         
+
 
             //for (int i = 0; i < images.Count; i++)
 

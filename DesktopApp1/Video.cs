@@ -1,32 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using ExtensionMethods;
 using System.Windows.Forms;
 using System.IO;
+using System.Text;
+using Emgu.CV.CvEnum;
 
 namespace DesktopApp1
 {
 
     using Emgu.CV;
     using Emgu.CV.CvEnum;
+    using Emgu.CV.Structure;
 
     /// <summary>
     /// <para/> Requirments
     /// <para/> Basics:
     /// <para/>     1.Delete a Part. ✔
-    /// <para/>     2.Move a part.
-    /// <para/>     3.Add WaterMark.
+    /// <para/>     2.Move a part. ✔
+    /// <para/>     3.Add WaterMark. ✔
     /// <para/>     4.Save Video. ✔
-    /// <para/>     5.Change FPS.
+    /// <para/>     5.Change FPS. ✔
     /// <para/> Addtional:
     /// <para/>     6.undo Last Action.
     /// <para/>     7.Resize Video. ✔
     /// <para/>     8.Create Video from Photos. ✔
-    /// <para/>     9.Merge Video.
+    /// <para/>     9.Merge Video. ✔
     /// <para/>     10.Add Stickers.
     /// <para/>     11.Add Audio.
     /// <para/></summary>
@@ -81,14 +83,15 @@ namespace DesktopApp1
 
             name = path.Split('\\').Last();
             frames = new List<Mat>();
-            framesNum = (uint)videoCapture.GetCaptureProperty(CapProp.FrameCount);
+            //framesNum = (uint)videoCapture.GetCaptureProperty(CapProp.FrameCount);
+
             fps = (float)videoCapture.GetCaptureProperty(CapProp.Fps);
             int height = (int)videoCapture.GetCaptureProperty(CapProp.FrameHeight);
             int width = (int)videoCapture.GetCaptureProperty(CapProp.FrameWidth);
             size = new Size(width, height);
             this.delay = 1000 / fps; //delay in ms
-            // delay between frames * num frames
-            this.seconds = (((delay) / 1000) * framesNum);
+                                     // delay between frames * num frames
+
 
 
             while (videoCapture.IsOpened)
@@ -102,6 +105,8 @@ namespace DesktopApp1
                     Console.WriteLine("is  empty");
                 }
             }
+            framesNum = (uint)frames.Count;
+            this.seconds = (((delay) / 1000) * framesNum);
             videoCapture.Dispose();
             if (frame.IsEmpty)
             {
@@ -109,21 +114,19 @@ namespace DesktopApp1
             }
         }
 
-        public Video(uint framesNum, Size size, float seconds, float fps, List<Mat> frames)
-        {
-            this.framesNum = framesNum;
-            this.size = size;
-            this.seconds = seconds;
-            this.fps = fps;
-            this.frames = frames;
-            this.delay = 1000 / fps;
-            //fps = framesNum/seconds
-        }
         public Video(uint framesNum, Size size, float fps, List<Mat> frames)
         {
             this.framesNum = framesNum;
             this.size = size;
-            this.seconds = framesNum/fps;
+            this.FPS = fps;
+            this.frames = frames;
+            //fps = framesNum/seconds
+        }
+        public Video(uint framesNum, Size size, float fps, float seconds, List<Mat> frames)
+        {
+            this.framesNum = framesNum;
+            this.size = size;
+            this.seconds = framesNum / fps;
             this.fps = fps;
             this.frames = frames;
             this.delay = 1000 / fps;
@@ -160,7 +163,7 @@ namespace DesktopApp1
             //frames number to delte it.
             uint diff = end - start + 1;
             uint framesNum = this.framesNum - diff;
-             this.frames.RemoveRange((int)start, (int)diff);
+            this.frames.RemoveRange((int)start, (int)diff);
 
             //frames/fps=seconds
             float seconds = framesNum / fps;
@@ -192,18 +195,25 @@ namespace DesktopApp1
             uint diff = end - start + 1;
             uint framesNum = this.framesNum - diff;
             List<Mat> framesOFPart = this.frames.GetRange((int)start, (int)end);
-            List<Mat> framesBeforpart = this.frames.GetRange(0, (int)start - 1);
-            List<Mat> framesAfterpart = this.frames.GetRange((int)end + 1, (int)framesNum);
-            List<Mat> withoutpart = framesOFPart.ToList();
-            withoutpart.AddRange(framesAfterpart);
+            List<Mat> newFrames = new List<Mat>();
+            //withoutpart.AddRange(framesAfterpart);
 
             if (into < start)
             {
-                // withoutpart.AddRange()
+               
+                List<Mat> framesBeforPartToInto = this.frames.GetRangeByIndex(0,(int) into-1);
+                List<Mat> framesIntoToPart = this.frames.GetRangeByIndex((int)into , (int)start-1);
+                List<Mat> framesAfterpart = this.frames.GetRangeByIndex((int)end + 1, (int)framesNum);
+
+                this.frames = newFrames.Concat(framesBeforPartToInto).Concat(framesOFPart).Concat(framesIntoToPart).Concat(framesAfterpart).ToList();
             }
             else if (into > end)
             {
+                List<Mat> framesBeforpart = this.frames.GetRangeByIndex(0, (int)start - 1);
+                List<Mat> framesAfterpartToInto = this.frames.GetRangeByIndex((int)end + 1, (int)into-1);
+                List<Mat> framesIntoToEnd = this.frames.GetRangeByIndex((int)into, (int)framesNum);
 
+                this.frames=newFrames.Concat(framesBeforpart).Concat(framesAfterpartToInto).Concat(framesOFPart).Concat(framesIntoToEnd).ToList();
             }
 
             return this;
@@ -227,8 +237,99 @@ namespace DesktopApp1
             return this;
         }
 
-        public Video AddWatermark(String waterMark)
+        public Video AddWatermark(String textWaterMark, Point p, MCvScalar textcolor, FontFace font = FontFace.HersheySimplex, double fontscale = 3.5)
         {
+            Mat textMat = Mat.Zeros(frames[0].Rows, frames[0].Cols, DepthType.Cv8U, 3);
+            CvInvoke.PutText(
+                 textMat,
+                  textWaterMark,
+                  p,
+                  font,
+                  fontscale,
+                  textcolor
+                     );
+            CvInvoke.Imshow("kemo", textMat);
+            Parallel.ForEach(this.frames, frame =>
+            {
+
+                CvInvoke.AddWeighted(
+                        frame,          //src1 first image
+                        1,            //alpha src1
+                        textMat,      //src2 second image
+                        0.3,            //alpha src2
+                        0,              //The output array has the same size and number of channels as the input two arrays. dst = src1[I] * alpha + src2[I] * beta + gamma
+                        frame           //dist
+                        );
+
+            });
+            return this;
+        }
+
+        public Video AddWatermark(String path)
+        {
+
+            String ext = path.GetExtension();
+            if (ext == "mp4")
+            {
+                Video waterMark = new Video(path);
+
+                if (waterMark.frames.Count == 0)
+                {
+                    Console.WriteLine("nooo frames here");
+                }
+                else
+                {
+                    Parallel.ForEach(waterMark.frames, frame2 =>
+                    {
+                        CvInvoke.Resize(
+                        frame2,  //src
+                        frame2, //dis
+                        this.frames[0].Size //size
+                        );
+                    });
+                    int i = 0;
+                    Parallel.ForEach(this.frames, frame =>
+                    {
+                        if (i == waterMark.frames.Count - 1)
+                        {
+                            i = 0;
+                        }
+                        CvInvoke.AddWeighted(
+                                frame,              //src1 first image
+                                0.6,                //alpha src1
+                                waterMark.frames[i],//src2 second image
+                                0.3,                //alpha src2
+                                0,                  //The output array has the same size and number of channels as the input two arrays. dst = src1[I] * alpha + src2[I] * beta + gamma
+                                frame               //dist
+                                );
+                        i++;
+                    });
+                }
+            }
+            else if (ext == "jpg" || ext == "jpeg" || ext == "png")
+            {
+                //Watermark for photo
+                Mat waterMark = new Mat();
+                waterMark = Emgu.CV.CvInvoke.Imread(path);
+
+                CvInvoke.Resize(
+                        waterMark,      //src
+                        waterMark,      //dis
+                        frames[0].Size  //size
+                        );
+                Parallel.ForEach(this.frames, frame =>
+                {
+                    CvInvoke.AddWeighted(
+                        frame,          //src1 first image
+                        0.6,            //alpha src1
+                        waterMark,      //src2 second image
+                        0.3,            //alpha src2
+                        0,              //The output array has the same size and number of channels as the input two arrays. dst = src1[I] * alpha + src2[I] * beta + gamma
+                        frame           //dist
+                        );
+                });
+            }
+
             return this;
         }
 
@@ -261,12 +362,63 @@ namespace DesktopApp1
         /// <returns></returns>
         public Video ChangeFps(float newFPs)
         {
-            float oldfps = this.fps;
-            float ratio = oldfps / newFPs;
-
-            float newdelay = this.delay * ratio;
-
+            this.FPS = newFPs;
             return this;
+
+            //float oldFps = this.fps;
+            //bool IsDelete = false;
+            //float ratio;
+            //float diff = oldFps - newFPs;
+
+            //if (diff>0)
+            //{
+            //    IsDelete = true;
+            //    ratio = oldFps / newFPs;
+            //}
+            //else
+            //{
+            //    IsDelete = false;
+            //    ratio = newFPs / oldFps;
+            //    diff = -diff;
+            //}
+
+
+            //float sum = 0;
+            //for (int i = 0; i < framesNum; i++)
+            //{
+
+            //    sum += ratio;
+            //    bool ThisRound = Math.Round(sum, 4) == Math.Round(sum);
+            //    if (IsDelete)
+            //    {
+
+            //        if (ThisRound)
+            //        {
+            //            Console.WriteLine(sum);
+            //            this.frames.RemoveAt(i);
+            //            i--;
+            //            framesNum--;
+            //            Console.WriteLine("delete");
+            //        }
+            //    }
+            //    else
+            //    {
+            //        if (ThisRound)
+            //        {
+
+            //        }
+            //    }
+
+            //    if (diff == 0)
+            //    {
+
+            //    }
+            //}
+
+
+            ////float newdelay = this.delay * ratio;
+
+            //return this;
         }
 
         #endregion RequirementsBasics
@@ -310,7 +462,7 @@ namespace DesktopApp1
         /// <param name="fps"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        public Video CreateVideoFromPhotos(List<String>paths,float fps,Size size)
+        public Video CreateVideoFromPhotos(List<String> paths, float fps, Size size)
         {
             List<Mat> frames = this.PathsPhotosToMats(paths);
             Video video = new Video((uint)frames.Count, size, fps, frames);
@@ -326,11 +478,14 @@ namespace DesktopApp1
         /// <param name="video1"></param>
         /// <param name="video2"></param>
         /// <returns></returns>
-        public Video MergeVideos(Video video1,Video video2)
+        public Video MergeVideos(Video video1, Video video2)
         {
+            Size size = video1.size;
+            video2.ResizeVideo(size);
             List<Mat> mergedFrames = video1.frames.Clone().Concat(video2.frames).ToList();
-            //TODO: frames reduce  to the min fps between the both
-            Video mergedVideo = new Video(" ");
+            String name = "merged" + video1.name + "+" + video2.name;
+            float fps = (video1.fps + video2.fps) / 2f;
+            Video mergedVideo = new Video((uint)mergedFrames.Count,size,fps, mergedFrames);
             return mergedVideo;
         }
 
@@ -341,7 +496,7 @@ namespace DesktopApp1
         /// <param name="sticker"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        public Video AddStickers(Size offest,Mat sticker, Size size)
+        public Video AddStickers(Size offest, Mat sticker, Size size)
         {
             CvInvoke.Resize(sticker, sticker, size);
             //TODO:puth the stiker in all frames.
@@ -358,7 +513,7 @@ namespace DesktopApp1
         }
         #endregion RequirementsAddtional
 
-
+        #region methods
         public Video showFrames()
         {
             for (int i = 0; i < framesNum; i++)
@@ -390,23 +545,25 @@ namespace DesktopApp1
             String info;
             info = "Name Video: " + this.name;
             info += "\nNumber of Frames: " + this.framesNum;
-            info += "\nNumber of List: " + this.frames.Count;
+            info += "\nDelay: " + this.delay;
             info += "\nSeconds of Video: " + this.seconds;
             info += "\nframe rate: " + this.fps;
             info += "\nSize of video (width,height): " + this.size.ToString();
             return info;
         }
 
+
         private List<Mat> PathsPhotosToMats(List<String> paths)
         {
             List<Mat> frames = new List<Mat>();
-            for (int i=0;i< paths.Count;i++)
+            for (int i = 0; i < paths.Count; i++)
             {
                 string path = paths[i];
                 frames.Add(CvInvoke.Imread(path));
             }
             return frames;
         }
+        #endregion methods
 
         #region getter
         public List<Mat> Frames
@@ -418,6 +575,18 @@ namespace DesktopApp1
         {
             get { return delay; }
             //set { delay = value; }
+        }
+
+        public float FPS
+        {
+            get { return fps; }
+            set
+            {
+                fps = value;
+                this.delay = 1000 / fps;
+                this.seconds = framesNum / fps;
+
+            }
         }
         #endregion getter
 
