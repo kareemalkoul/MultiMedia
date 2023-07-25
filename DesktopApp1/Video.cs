@@ -9,7 +9,7 @@ using System.IO;
 using System.Text;
 using Emgu.CV.CvEnum;
 
-namespace DesktopApp1
+namespace MultiMedia
 {
 
     using Emgu.CV;

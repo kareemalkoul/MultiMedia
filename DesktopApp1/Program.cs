@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using Emgu.CV;
 using Emgu.CV.CvEnum;
 
-namespace DesktopApp1
+namespace MultiMedia
 {
     static class Program
     {
@@ -63,7 +63,7 @@ namespace DesktopApp1
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new MultiMedia());
         }
 
 

@@ -1,6 +1,6 @@
-namespace DesktopApp1
+namespace MultiMedia
 {
-    partial class Form1
+    partial class MultiMedia
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@ namespace DesktopApp1
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MultiMedia));
             this.save = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
@@ -168,7 +168,7 @@ namespace DesktopApp1
             // 
             // button_pause_start
             // 
-            this.button_pause_start.BackgroundImage = global::DesktopApp1.Properties.Resources.play;
+            this.button_pause_start.BackgroundImage = global::MultiMedia.Properties.Resources.play;
             this.button_pause_start.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.button_pause_start.Enabled = false;
             this.button_pause_start.Location = new System.Drawing.Point(93, 7);
@@ -285,7 +285,7 @@ namespace DesktopApp1
             this.move.UseVisualStyleBackColor = true;
             this.move.Click += new System.EventHandler(this.Move_Click);
             // 
-            // Form1
+            // MultiMedia
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -311,8 +311,8 @@ namespace DesktopApp1
             this.Controls.Add(this.button2);
             this.Controls.Add(this.save);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "MultiMedia";
+            this.Text = "MultiMedia";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).EndInit();
             this.ResumeLayout(false);

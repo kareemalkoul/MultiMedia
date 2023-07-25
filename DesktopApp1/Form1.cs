@@ -12,15 +12,15 @@ using System.Windows.Forms;
 // This is the code for your desktop app.
 // Press Ctrl+F5 (or go to Debug > Start Without Debugging) to run your app.
 
-namespace DesktopApp1
+namespace MultiMedia
 {
-    public partial class Form1 : Form
+    public partial class MultiMedia : Form
     {
 
         Video videoHandler;
         int indexFrame = 0;
         bool start = false;
-        public Form1()
+        public MultiMedia()
         {
 
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -246,12 +246,12 @@ namespace DesktopApp1
                 if (start)
                 {
                     timer1.Start();
-                    button_pause_start.BackgroundImage = DesktopApp1.Properties.Resources.pause;
+                    button_pause_start.BackgroundImage = global::MultiMedia.Properties.Resources.pause;
                 }
                 else
                 {
                     timer1.Stop();
-                    button_pause_start.BackgroundImage = DesktopApp1.Properties.Resources.play;
+                    button_pause_start.BackgroundImage = global::MultiMedia.Properties.Resources.play;
                 }
             }
         }
