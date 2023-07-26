@@ -1,4 +1,3 @@
-
 # Introducation
 The project about Video editting by using `winform` + `opencv` interface **Emgu.CV**
 
