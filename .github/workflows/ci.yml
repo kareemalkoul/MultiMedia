@@ -15,7 +15,7 @@ jobs:
 
     - name: Setup .NET Framework
       uses: nuget/setup-nuget@v1
-      run: nuget install netframework -Version 4.6.1
+      run: nuget install netframework -Version 4.8
     - name: Restore dependencies
       run: dotnet restore
 
