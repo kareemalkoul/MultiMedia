@@ -4,17 +4,20 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-# Introducation
-The project about Video editting by using `winform` + `opencv` interface **Emgu.CV**
+# Introduction
+This project is a multimedia application that allows users to edit videos. It is built using the .NET framework and the Emgu.CV library, which is a .NET wrapper for the OpenCV library. The application provides functionalities such as deleting a part of a video, moving a part of a video, adding a watermark to a video, saving a video, changing the FPS of a video, resizing a video, creating a video from photos, merging videos and adding stickers to a video.
 
 ![image](https://github.com/kareemalkoul/MultiMedia/assets/25280164/de841058-18ac-48e8-9392-e3c86981ef28)
 
 # Installation
-This Project run on Dotnet framework **v4.6.1** + Windows form .
+This project runs on the .NET framework version 4.6.1 and uses Windows Forms for the graphical user interface. To install and setup the project, follow these steps:
 
-open Visual Studio 2019 Project ->mange NuGet -> Browse -> search "Emgu.CV.runtime.windows" -> install Version "4.2.0.3636".
-
-package "Emgu.CV" is build on opencv.
+1. Install the .NET framework version 4.6.1 if you haven't already.
+2. Clone this repository to your local machine.
+3. Open the project in Visual Studio 2019.
+4. Go to Project -> Manage NuGet Packages.
+5. In the NuGet Package Manager, go to Browse and search for "Emgu.CV.runtime.windows".
+6. Install version 4.2.0.3636 of the "Emgu.CV.runtime.windows" package.
 
 
  # Features
