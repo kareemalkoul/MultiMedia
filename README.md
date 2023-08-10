@@ -5,7 +5,7 @@
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 # Introduction
-This project is a multimedia application that allows users to edit videos. It is built using the .NET framework and the Emgu.CV library, which is a .NET wrapper for the OpenCV library. The application provides functionalities such as deleting a part of a video, moving a part of a video, adding a watermark to a video, saving a video, changing the FPS of a video, resizing a video, creating a video from photos, merging videos, adding stickers to a video, and adding audio to a video.
+This project is a multimedia application that allows users to edit videos. It is built using the .NET framework and the Emgu.CV library, which is a .NET wrapper for the OpenCV library. The application provides functionalities such as deleting a part of a video, moving a part of a video, adding a watermark to a video, saving a video, changing the FPS of a video, resizing a video, creating a video from photos, merging videos and adding stickers to a video.
 
 ![image](https://github.com/kareemalkoul/MultiMedia/assets/25280164/de841058-18ac-48e8-9392-e3c86981ef28)
 
